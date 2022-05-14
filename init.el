@@ -80,11 +80,14 @@ There are two things you can do about this warning:
 (set-language-environment "Latin-1")
 (set-input-method "latin-1-prefix") ;; or "latin-1-postfix"
 
+;; Line number
+(setq column-number-mode t)
+
 ;;--------------------------------------------------------------------
 ;;  Configuraciones diversas (TODO: mover carga de ficheros al inicio)
 ;;--------------------------------------------------------------------
 ;; Defidimos un load-path
-;; (add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 ;; (add-to-list 'load-path "~/.emacs.d/gtags")
 ;; (add-to-list 'load-path "~/.emacs.d/magit")
 ;; (add-to-list 'load-path "~/.emacs.d/python-mode.el-6.1.2")
@@ -483,6 +486,10 @@ There are two things you can do about this warning:
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
 
+;;--------------------------------------------------------------------
+;;  Speedbar
+;;--------------------------------------------------------------------
+(require 'sr-speedbar)
 
 ;;--------------------------------------------------------------------
 ;;  Funcioncilla apañás
@@ -702,7 +709,7 @@ There are two things you can do about this warning:
  '(org-tags-column 80)
  '(package-selected-packages
    (quote
-    (company ggtags gnu-elpa-keyring-update inline-crypt grep+ git ## org-jira org sr-speedbar htmlize dired+ auctex)))
+    (python company ggtags gnu-elpa-keyring-update inline-crypt grep+ git ## org-jira org sr-speedbar htmlize dired+ auctex)))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
 
 (custom-set-faces
@@ -792,15 +799,15 @@ There are two things you can do about this warning:
       browse-url-generic-program "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
 
 ;; --------------------------------------------------------------------------------
-;; C / C++ (Configuaration)
+;; Semantic
 ;; --------------------------------------------------------------------------------
-;; turn on Semantic
-;;(semantic-mode 1)
-;; let's define a function
-;;(defun my:add-semantic-to-autocomplete()
-;;  (add-to-list 'ac-sources 'ac-sources-semantic))
-;;(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
-;;(add-hook 'c++-mode-common-hook 'my:add-semantic-to-autocomplete)
+(require 'cc-mode)
+(require 'semantic)
+
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+
+(semantic-mode 1)
 
 ;; System locale to use for formatting time values
 (setq system-time-locale "C") 
