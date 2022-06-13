@@ -117,6 +117,42 @@ There are two things you can do about this warning:
 ;; (define-key ggtags-mode-map (kbd "M-*") 'pop-tag-mark)
 ;; (define-key ggtags-mode-map (kbd "C-.") 'ggtags-find-reference)
 
+(require 'rtags)
+(cmake-ide-setup)
+(add-hook 'c-mode-hook 'rtags-start-process-unless-running)
+(add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
+
+(use-package rtags
+  :ensure t
+  :hook (c++-mode . rtags-start-process-unless-running)
+  :config (setq rtags-completions-enabled t
+  		;;rtags-path "/home/lramirez/.emacs.d/rtags/src/rtags.el"
+  		rtags-path "/usr/share/emacs/site-lisp/elpa-src/rtags-2.37.130/rtags.el"
+  		rtags-rc-binary-name "/usr/bin/rtags-rc"
+  		rtags-rdm-binary-name "/usr/bin/rtags-rdm"
+  		rtags-use-helm t)
+  :bind (("C-c E" . rtags-find-symbol)
+  	 ("C-c e" . rtags-find-symbol-at-point)
+  	 ("C-c O" . rtags-find-references)
+  	 ("C-c o" . rtags-find-references-at-point)
+  	 ("C-c s" . rtags-find-file)
+  	 ("C-c v" . rtags-find-virtuals-at-point)
+  	 ("C-c F" . rtags-fixit)
+  	 ("C-c f" . rtags-location-stack-forward)
+  	 ("C-c b" . rtags-location-stack-back)
+  	 ("C-c n" . rtags-next-match)
+  	 ("C-c p" . rtags-previous-match)
+  	 ("C-c P" . rtags-preprocess-file)
+  	 ("C-c R" . rtags-rename-symbol)
+  	 ("C-c x" . rtags-show-rtags-buffer)
+  	 ("C-c T" . rtags-print-symbol-info)
+  	 ("C-c t" . rtags-symbol-type)
+  	 ("C-c I" . rtags-include-file)
+  	 ("C-c i" . rtags-get-include-file-for-symbol))
+  )
+
+(setq rtags-display-result-backend 'helm)
+
 
 ;;--------------------------------------------------------------------
 ;; COMPANY
@@ -709,7 +745,7 @@ There are two things you can do about this warning:
  '(org-tags-column 80)
  '(package-selected-packages
    (quote
-    (python company ggtags gnu-elpa-keyring-update inline-crypt grep+ git ## org-jira org sr-speedbar htmlize dired+ auctex)))
+    (cmake-ide python company ggtags gnu-elpa-keyring-update inline-crypt grep+ git ## org-jira org sr-speedbar htmlize dired+ auctex)))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
 
 (custom-set-faces
