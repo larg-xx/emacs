@@ -1,0 +1,26 @@
+[color]
+	ui=true
+	pager=true
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	logo = log --pretty=oneline --abbrev-commit --decorate=full
+	logof = log --pretty=oneline --abbrev-commit --name-only 
+	logf = log -p --name-only
+     	logol = log --pretty=format:\"%C(auto)%h%d%Creset %C(cyan)(%ci)%Creset %s %C(green)%cn <%ce>%Creset %\"
+	logtree = log --all --graph --decorate --abbrev-commit --pretty=oneline
+[user]
+	email = luis.a.ramirez@airbus.com
+	name = lramirez
+
+[credential]
+	helper = store --file ~/.git-credentials
+
+[http]
+    sslverify = false
+#    #proxy = http://pxyCORP-vipa1.eadscasa.casa.corp:3128
+#    proxy = http://c84160@pxynational-vipa1.eadscasa.casa.corp:3128
+#[https]
+#    #proxy = http://pxyNATIONAL-vipa1.eadscasa.casa.corp:3128
+#    proxy = http://c84160@pxynational-vipa1.eadscasa.casa.corp:3128
