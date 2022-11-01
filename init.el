@@ -1,4 +1,4 @@
-;;---------------- -*- mode: emacs-lisp-mode; coding: iso-8859-15; -*-
+;; ---------------- -*- mode: emacs-lisp-mode; coding: iso-8859-15; -*-
 ;; .emacs
 ;;
 ;; Actualizado (C-u M-! date):           lun dic  1 11:32:24 CET 2003 (jaja!)
@@ -44,6 +44,13 @@ There are two things you can do about this warning:
 
 ;; Compile (C-c c)
 (global-set-key (kbd "\C-c c") 'compile)
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; Begin of function
 (global-set-key [M-up] 'beginning-of-defun)
@@ -117,41 +124,43 @@ There are two things you can do about this warning:
 ;; (define-key ggtags-mode-map (kbd "M-*") 'pop-tag-mark)
 ;; (define-key ggtags-mode-map (kbd "C-.") 'ggtags-find-reference)
 
-(require 'rtags)
-(cmake-ide-setup)
-(add-hook 'c-mode-hook 'rtags-start-process-unless-running)
-(add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
+;; (require 'rtags)
+;; (cmake-ide-setup)
+;; (add-hook 'c-mode-hook 'rtags-start-process-unless-running)
+;; (add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
 
-(use-package rtags
-  :ensure t
-  :hook (c++-mode . rtags-start-process-unless-running)
-  :config (setq rtags-completions-enabled t
-  		;;rtags-path "/home/lramirez/.emacs.d/rtags/src/rtags.el"
-  		rtags-path "/usr/share/emacs/site-lisp/elpa-src/rtags-2.37.130/rtags.el"
-  		rtags-rc-binary-name "/usr/bin/rtags-rc"
-  		rtags-rdm-binary-name "/usr/bin/rtags-rdm"
-  		rtags-use-helm t)
-  :bind (("C-c E" . rtags-find-symbol)
-  	 ("C-c e" . rtags-find-symbol-at-point)
-  	 ("C-c O" . rtags-find-references)
-  	 ("C-c o" . rtags-find-references-at-point)
-  	 ("C-c s" . rtags-find-file)
-  	 ("C-c v" . rtags-find-virtuals-at-point)
-  	 ("C-c F" . rtags-fixit)
-  	 ("C-c f" . rtags-location-stack-forward)
-  	 ("C-c b" . rtags-location-stack-back)
-  	 ("C-c n" . rtags-next-match)
-  	 ("C-c p" . rtags-previous-match)
-  	 ("C-c P" . rtags-preprocess-file)
-  	 ("C-c R" . rtags-rename-symbol)
-  	 ("C-c x" . rtags-show-rtags-buffer)
-  	 ("C-c T" . rtags-print-symbol-info)
-  	 ("C-c t" . rtags-symbol-type)
-  	 ("C-c I" . rtags-include-file)
-  	 ("C-c i" . rtags-get-include-file-for-symbol))
-  )
+;; (use-package rtags
+;;   :ensure t
+;;   :hook (c++-mode . rtags-start-process-unless-running)
+;;   :config (setq rtags-completions-enabled t
+;;   		rtags-path "/home/lramirez/.emacs.d/rtags/src/rtags.el"
+;;   		rtags-rc-binary-name "/home/lramirez/bin/rc"
+;;   		rtags-rdm-binary-name "/home/lramirez/bin/rdm"
+;;   		rtags-use-helm t)
+;;   :bind (("C-c E" . rtags-find-symbol)
+;;   	 ("C-c e" . rtags-find-symbol-at-point)
+;;   	 ("M-."   . rtags-find-symbol-at-point)
+;;   	 ("C-c O" . rtags-find-references)
+;;   	 ("C-c o" . rtags-find-references-at-point)
+;;   	 ("C-."   . rtags-find-references-at-point)
+;;   	 ("C-c s" . rtags-find-file)
+;;   	 ("C-c v" . rtags-find-virtuals-at-point)
+;;   	 ("C-c F" . rtags-fixit)
+;;   	 ("C-c f" . rtags-location-stack-forward)
+;;   	 ("C-c b" . rtags-location-stack-back)
+;;   	 ("M-*"   . rtags-location-stack-back)
+;;   	 ("C-c n" . rtags-next-match)
+;;   	 ("C-c p" . rtags-previous-match)
+;;   	 ("C-c P" . rtags-preprocess-file)
+;;   	 ("C-c R" . rtags-rename-symbol)
+;;   	 ("C-c x" . rtags-show-rtags-buffer)
+;;   	 ("C-c T" . rtags-print-symbol-info)
+;;   	 ("C-c t" . rtags-symbol-type)
+;;   	 ("C-c I" . rtags-include-file)
+;;   	 ("C-c i" . rtags-get-include-file-for-symbol))
+;;   )
 
-(setq rtags-display-result-backend 'helm)
+;; (setq rtags-display-result-backend 'helm)
 
 
 ;;--------------------------------------------------------------------
@@ -178,7 +187,9 @@ There are two things you can do about this warning:
  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
  (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
+;; ----------------------------------------------------------------------
 ;; Backup Directory
+;; ----------------------------------------------------------------------
 (setq backup-directory-alist
       `((".*" . ,"~/.emacs.d/backups")))
 (setq auto-save-file-name-transforms
@@ -197,6 +208,7 @@ There are two things you can do about this warning:
 ;; ----- LOAD-THEME ------------------
 ;;(load-theme 'tango-dark t)
 (load-theme 'deeper-blue t)
+;;(load-theme 'modus-vivendi t)
 
 ;; org-mode
 ;; Timestamp when triggering one of the DONE states, set the variable "org-log-done".
@@ -351,14 +363,14 @@ There are two things you can do about this warning:
 ;(global-set-key (kbd "C-c C-v") 'll-debug-insert-debug-output-statement)
 
 ;; Carga gtags-mode por defecto cuando se edita en C
-(setq c-mode-hook
-      '(lambda ()
-	 (gtags-mode 1) ))
+;; (setq c-mode-hook
+;;       '(lambda ()
+;; 	 (gtags-mode 1) ))
 
 ;; Lo mismo para c++
-(setq c++-mode-hook
-      '(lambda ()
-	 (gtags-mode 1) ))
+;; (setq c++-mode-hook
+;;       '(lambda ()
+;; 	 (gtags-mode 1) ))
 
 ;; -------- TEX ---------------
 ;; Carga auctex
@@ -427,7 +439,7 @@ There are two things you can do about this warning:
 (setq inhibit-startup-message t)
 
 ;; Face font size (The value is 1/10pt so 100 is 10pt).
-(set-face-attribute 'default nil :height 80)
+(set-face-attribute 'default nil :height 100)
 
 ;; Quita barra de herramientas de Emacs 21
 (if (fboundp 'tool-bar-mode)
@@ -523,9 +535,12 @@ There are two things you can do about this warning:
   (aset buffer-display-table ?\^M []))
 
 ;;--------------------------------------------------------------------
-;;  Speedbar
+;;  Libraries 
 ;;--------------------------------------------------------------------
 (require 'sr-speedbar)
+(require 'cmake-mode)
+(require 'go-mode)
+(require 'protobuf-mode)
 
 ;;--------------------------------------------------------------------
 ;;  Funcioncilla apañás
@@ -738,22 +753,22 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(c-default-style '((c-mode . "") (c++-mode . "")))
  '(case-fold-search t)
  '(current-language-environment "English")
  '(global-font-lock-mode t nil (font-lock))
- '(org-babel-load-languages (quote ((C . t))))
+ '(org-babel-load-languages '((C . t)))
  '(org-tags-column 80)
  '(package-selected-packages
-   (quote
-    (cmake-ide python company ggtags gnu-elpa-keyring-update inline-crypt grep+ git ## org-jira org sr-speedbar htmlize dired+ auctex)))
- '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
+   '(blamer python-mode flymd markdown-mode helm-rtags cmake-ide python company ggtags gnu-elpa-keyring-update inline-crypt grep+ git ## org-jira org sr-speedbar htmlize dired+ auctex))
+ '(text-mode-hook '(turn-on-auto-fill text-mode-hook-identify)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 60 :italic t))))
 
 (set-default 'truncate-lines t)
 (set-default 'hide-ifdef-toggle-shadowing t)
@@ -831,8 +846,8 @@ There are two things you can do about this warning:
 
 ;; Set default browser
 ;;
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
+;;(setq browse-url-browser-function 'browse-url-generic
+;;      browse-url-generic-program "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
 
 ;; --------------------------------------------------------------------------------
 ;; Semantic
@@ -865,7 +880,75 @@ There are two things you can do about this warning:
 ;;(global-set-key (kbd "C-c v") 'ivy-push-view)
 ;;(global-set-key (kbd "C-c V") 'ivy-pop-view)
 
-;; ;; --------------------------------------------------------------------------------
+;; Blamer
+(use-package blamer
+  :bind (("M-I" . blamer-show-commit-info))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 30)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 60
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
+
+;; --------------------------------------------------------------------------------
+;; Clang stuff
+;; --------------------------------------------------------------------------------
+(require 'clang-format)
+(setq clang-format-style "file")
+(setq clang-format-executable "/home/lramirez/bin/clang-format")
+(setq company-clang-executable "/usr/bin/clang++-12")
+
+;; Autosave hook
+(add-hook 'c++-mode-hook (lambda () (add-hook 'before-save-hook 'clang-format-buffer)))
+(add-hook 'c-mode-hook (lambda () (add-hook 'before-save-hook 'clang-format-buffer)))
+
+;; copy from gnu style with modification.
+(c-add-style "work" 
+	     '((c-basic-offset . 2)
+	       (c-comment-only-line-offset 0 . 0)
+	       (c-hanging-braces-alist
+		(substatement-open before after)
+		(arglist-cont-nonempty))
+	       (c-offsets-alist
+		(statement-block-intro . +)
+		(knr-argdecl-intro . 5)
+		(substatement-open . 0) ;; + -> 0
+		(substatement-label . 0)
+		(label . 0)
+		(statement-case-open . +)
+		(statement-cont . +)
+		(arglist-intro . c-lineup-arglist-intro-after-paren)
+		(arglist-close . c-lineup-arglist)
+		(inline-open . 0)
+		(brace-list-open . +)
+		(brace-list-intro first c-lineup-2nd-brace-entry-in-arglist c-lineup-class-decl-init-+ +)
+		(topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))
+	       (c-special-indent-hook . c-gnu-impose-minimum)
+	       (c-block-comment-prefix . #1="")))
+
+(add-hook 'c++-mode-hook (lambda () (c-set-style "work")))
+(add-hook 'c-mode-hook (lambda () (c-set-style "work")))
+
+;; (setq c-default-style
+;;       '((java-mode . "java")
+;; 	(awk-mode . "awk")
+;; 	(c-mode . "work")
+;; 	(c++-mode . "work")
+;; 	(cc-mode . "work")
+;; 	(other . "work")))
+
+;; --------------------------------------------------------------------------------
+;; XML
+;; --------------------------------------------------------------------------------
+(load-library "noxml-fold")
+(add-hook 'nxml-mode-hook 'noxml-fold-mode)
+
+;; --------------------------------------------------------------------------------
 ;; ;; Os Integration
 ;; --------------------------------------------------------------------------------
 ;(use-package exec-path-from-shell)
@@ -873,4 +956,5 @@ There are two things you can do about this warning:
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
-;;--------------------------- fin de .emacs --------------------------
+;;--------------------------- fin de init.el --------------------------
+
