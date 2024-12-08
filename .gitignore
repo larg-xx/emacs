@@ -1,0 +1,7 @@
+# Folders to ignore
+elpa/
+auto-save-list/
+eln-cache/
+
+# Files to ignore
+projectile-bookmarks.eld

@@ -1,0 +1,6 @@
+* emacs
+** fonts
+ M-x menu-set-fonts ;; pop up to select font interactivelly.
+* bspwm
+ 
+  
